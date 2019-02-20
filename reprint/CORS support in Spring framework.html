@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>CORS support in Spring Framework | 博客</title>
+    <meta name="description" content="zhangyongxin&#39;s blog">
+    <link rel="icon" href="/zhangyongxin/favicon.ico">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.css">
+    
+    <link rel="preload" href="/zhangyongxin/assets/css/styles.74657ed2.css" as="style"><link rel="preload" href="/zhangyongxin/assets/js/app.74657ed2.js" as="script"><link rel="preload" href="/zhangyongxin/assets/css/styles.74657ed2.css" as="style"><link rel="preload" href="/zhangyongxin/assets/js/34.c16c5295.js" as="script"><link rel="prefetch" href="/zhangyongxin/assets/css/1.styles.542cba6d.css"><link rel="prefetch" href="/zhangyongxin/assets/css/8.styles.4fe9bba1.css"><link rel="prefetch" href="/zhangyongxin/assets/js/1.542cba6d.js"><link rel="prefetch" href="/zhangyongxin/assets/js/10.64cadbad.js"><link rel="prefetch" href="/zhangyongxin/assets/js/11.9a671232.js"><link rel="prefetch" href="/zhangyongxin/assets/js/12.0e7cc131.js"><link rel="prefetch" href="/zhangyongxin/assets/js/13.609ed249.js"><link rel="prefetch" href="/zhangyongxin/assets/js/14.d6836a4c.js"><link rel="prefetch" href="/zhangyongxin/assets/js/15.7b74c80f.js"><link rel="prefetch" href="/zhangyongxin/assets/js/16.4895ae83.js"><link rel="prefetch" href="/zhangyongxin/assets/js/17.530d124f.js"><link rel="prefetch" href="/zhangyongxin/assets/js/18.b239cccc.js"><link rel="prefetch" href="/zhangyongxin/assets/js/19.b60b50ff.js"><link rel="prefetch" href="/zhangyongxin/assets/js/2.1e22d7f8.js"><link rel="prefetch" href="/zhangyongxin/assets/js/20.7b9d30ef.js"><link rel="prefetch" href="/zhangyongxin/assets/js/21.976a9872.js"><link rel="prefetch" href="/zhangyongxin/assets/js/22.21400a1f.js"><link rel="prefetch" href="/zhangyongxin/assets/js/23.43378c47.js"><link rel="prefetch" href="/zhangyongxin/assets/js/24.47ac6988.js"><link rel="prefetch" href="/zhangyongxin/assets/js/25.d0c557ef.js"><link rel="prefetch" href="/zhangyongxin/assets/js/26.e799ec6c.js"><link rel="prefetch" href="/zhangyongxin/assets/js/27.9e0b1fb5.js"><link rel="prefetch" href="/zhangyongxin/assets/js/28.981cd19c.js"><link rel="prefetch" href="/zhangyongxin/assets/js/29.75726558.js"><link rel="prefetch" href="/zhangyongxin/assets/js/3.5d4c971b.js"><link rel="prefetch" href="/zhangyongxin/assets/js/30.e5b2bc2d.js"><link rel="prefetch" href="/zhangyongxin/assets/js/31.f35faab8.js"><link rel="prefetch" href="/zhangyongxin/assets/js/32.695115bf.js"><link rel="prefetch" href="/zhangyongxin/assets/js/33.d2d9144b.js"><link rel="prefetch" href="/zhangyongxin/assets/js/35.be01aa78.js"><link rel="prefetch" href="/zhangyongxin/assets/js/36.0a450691.js"><link rel="prefetch" href="/zhangyongxin/assets/js/37.cd1af253.js"><link rel="prefetch" href="/zhangyongxin/assets/js/38.1d1a4b90.js"><link rel="prefetch" href="/zhangyongxin/assets/js/4.7bab5812.js"><link rel="prefetch" href="/zhangyongxin/assets/js/5.7301bdbe.js"><link rel="prefetch" href="/zhangyongxin/assets/js/6.233a4d13.js"><link rel="prefetch" href="/zhangyongxin/assets/js/7.e8149bf7.js"><link rel="prefetch" href="/zhangyongxin/assets/js/8.4fe9bba1.js"><link rel="prefetch" href="/zhangyongxin/assets/js/9.08fcbe3b.js">
+    <link rel="stylesheet" href="/zhangyongxin/assets/css/1.styles.542cba6d.css"><link rel="stylesheet" href="/zhangyongxin/assets/css/8.styles.4fe9bba1.css"><link rel="stylesheet" href="/zhangyongxin/assets/css/styles.74657ed2.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div><div class="wrap"><div class="theme-container container no-sidebar"><header class="navbar"><div class="nav-header"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/zhangyongxin/" class="home-link router-link-active"><img src="https://ae01.alicdn.com/kf/HTB1uzODadzvK1RkSnfo762MwVXai.png" class="logo"> <span class="site-name can-hide">
+        博客
+      </span></a> <nav class="nav-links can-hide"><div class="nav-item"><a href="/zhangyongxin/" class="nav-link">首页</a></div><div class="nav-item"><a href="/zhangyongxin/tags/" class="nav-link">分类</a></div><div class="nav-item"><a href="/zhangyongxin/tools/toolCollections.html" class="nav-link">工具</a></div><div class="nav-item"><a href="/zhangyongxin/about/about.html" class="nav-link">About</a></div><div class="nav-item"><a href="https://github.com/xiaoxinshiwo" target="_blank" rel="noopener noreferrer" class="nav-link">Github</a></div> <!----></nav> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div></div></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/zhangyongxin/" class="nav-link">首页</a></div><div class="nav-item"><a href="/zhangyongxin/tags/" class="nav-link">分类</a></div><div class="nav-item"><a href="/zhangyongxin/tools/toolCollections.html" class="nav-link">工具</a></div><div class="nav-item"><a href="/zhangyongxin/about/about.html" class="nav-link">About</a></div><div class="nav-item"><a href="https://github.com/xiaoxinshiwo" target="_blank" rel="noopener noreferrer" class="nav-link">Github</a></div> <!----></nav> <!----></div> <div class="page-container"><div><div class="page card"><div class="content-header"><h1 class="page-title" style="color:#ac0b39;">
+        CORS support in Spring Framework
+      </h1> <span class="page-timestamp">2018-05-21 23:08:11</span></div> <div class="content"><p>ENGINEERING   SÉBASTIEN DELEUZE   JUNE 08, 2015
+For security reasons, browsers prohibit AJAX calls to resources residing outside the current origin. For example, as you’re checking your bank account in one tab, you could have the evil.com website in another tab. The scripts from evil.com shouldn’t be able to make AJAX requests to your bank API (withdrawing money from your account!) using your credentials.</p> <p>Cross-origin resource sharing (CORS) is a W3C specification implemented by most browsers that allows you to specify in a flexible way what kind of cross domain requests are authorized, instead of using some less secured and less powerful hacks like IFrame or JSONP.</p> <p>Spring Framework 4.2 GA provides first class support for CORS out-of-the-box, giving you an easier and more powerful way to configure it than typical filter based solutions.</p> <p>Spring MVC provides high-level configuration facilities, described bellow.</p> <p>Controller method CORS configuration
+You can add to your @RequestMapping annotated handler method a @CrossOrigin annotation in order to enable CORS on it (by default @CrossOrigin allows all origins and the HTTP methods specified in the @RequestMapping annotation):</p> <div class="language- extra-class"><pre class="language-text"><code>@RestController
+@RequestMapping(&quot;/account&quot;)
+public class AccountController {
+
+	@CrossOrigin
+	@GetMapping(&quot;/{id}&quot;)
+	public Account retrieve(@PathVariable Long id) {
+		// ...
+	}
+
+	@DeleteMapping(&quot;/{id}&quot;)
+	public void remove(@PathVariable Long id) {
+		// ...
+	}
+}
+</code></pre></div><p>It is also possible to enable CORS for the whole controller:</p> <div class="language- extra-class"><pre class="language-text"><code>@CrossOrigin(origins = &quot;http://domain2.com&quot;, maxAge = 3600)
+@RestController
+@RequestMapping(&quot;/account&quot;)
+public class AccountController {
+
+	@GetMapping(&quot;/{id}&quot;)
+	public Account retrieve(@PathVariable Long id) {
+		// ...
+	}
+
+	@DeleteMapping(&quot;/{id}&quot;)
+	public void remove(@PathVariable Long id) {
+		// ...
+	}
+}
+</code></pre></div><p>In this example CORS support is enabled for both retrieve() and remove() handler methods, and you can also see how you can customize the CORS configuration using @CrossOrigin attributes.</p> <p>You can even use both controller and method level CORS configurations, Spring will then combine both annotation attributes to create a merged CORS configuration.</p> <div class="language- extra-class"><pre class="language-text"><code>@CrossOrigin(maxAge = 3600)
+@RestController
+@RequestMapping(&quot;/account&quot;)
+public class AccountController {
+
+	@CrossOrigin(origins = &quot;http://domain2.com&quot;)
+	@GetMapping(&quot;/{id}&quot;)
+	public Account retrieve(@PathVariable Long id) {
+		// ...
+	}
+
+	@DeleteMapping(&quot;/{id}&quot;)
+	public void remove(@PathVariable Long id) {
+		// ...
+	}
+}
+</code></pre></div><p>If you are using Spring Security, make sure to enable CORS at Spring Security level as well to allow it to leverage the configuration defined at Spring MVC level.</p> <div class="language- extra-class"><pre class="language-text"><code>@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.cors().and()...
+	}
+}
+</code></pre></div><p>Global CORS configuration
+In addition to fine-grained, annotation-based configuration you’ll probably want to define some global CORS configuration as well. This is similar to using filters but can be declared withing Spring MVC and combined with fine-grained @CrossOrigin configuration. By default all origins and GET, HEAD and POST methods are allowed.</p> <p>JavaConfig
+Enabling CORS for the whole application is as simple as:</p> <div class="language- extra-class"><pre class="language-text"><code>@Configuration
+@EnableWebMvc
+public class WebConfig extends WebMvcConfigurerAdapter {
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping(&quot;/**&quot;);
+	}
+}
+</code></pre></div><p>If you are using Spring Boot, it is recommended to just declare a WebMvcConfigurer bean as following:</p> <div class="language- extra-class"><pre class="language-text"><code>@Configuration
+public class MyConfiguration {
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping(&quot;/**&quot;);
+            }
+        };
+    }
+}
+</code></pre></div><p>You can easily change any properties, as well as only apply this CORS configuration to a specific path pattern:</p> <div class="language- extra-class"><pre class="language-text"><code>@Override
+public void addCorsMappings(CorsRegistry registry) {
+	registry.addMapping(&quot;/api/**&quot;)
+		.allowedOrigins(&quot;http://domain2.com&quot;)
+		.allowedMethods(&quot;PUT&quot;, &quot;DELETE&quot;)
+			.allowedHeaders(&quot;header1&quot;, &quot;header2&quot;, &quot;header3&quot;)
+		.exposedHeaders(&quot;header1&quot;, &quot;header2&quot;)
+		.allowCredentials(false).maxAge(3600);
+}
+</code></pre></div><p>If you are using Spring Security, make sure to enable CORS at Spring Security level as well to allow it to leverage the configuration defined at Spring MVC level.</p> <p>XML namespace
+It is also possible to configure CORS with the mvc XML namespace.</p> <p>This minimal XML configuration enable CORS on /** path pattern with the same default properties than the JavaConfig one:</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;mvc:cors&gt;
+	&lt;mvc:mapping path=&quot;/**&quot; /&gt;
+&lt;/mvc:cors&gt;
+</code></pre></div><p>It is also possible to declare several CORS mappings with customized properties:</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;mvc:cors&gt;
+
+	&lt;mvc:mapping path=&quot;/api/**&quot;
+		allowed-origins=&quot;http://domain1.com, http://domain2.com&quot;
+		allowed-methods=&quot;GET, PUT&quot;
+		allowed-headers=&quot;header1, header2, header3&quot;
+		exposed-headers=&quot;header1, header2&quot; allow-credentials=&quot;false&quot;
+		max-age=&quot;123&quot; /&gt;
+
+	&lt;mvc:mapping path=&quot;/resources/**&quot;
+		allowed-origins=&quot;http://domain1.com&quot; /&gt;
+
+&lt;/mvc:cors&gt;
+</code></pre></div><p>If you are using Spring Security, don’t forget to enable CORS at Spring Security level as well:</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;http&gt;
+	&lt;!-- Default to Spring MVC's CORS configuration --&gt;
+	&lt;cors /&gt;
+	...
+&lt;/http&gt;
+</code></pre></div><p>How does it work?</p> <blockquote><p>CORS requests (including preflight ones with an OPTIONS method) are automatically dispatched to the various HandlerMappings registered. They handle CORS preflight requests and intercept CORS simple and actual requests thanks to a CorsProcessor implementation (DefaultCorsProcessor by default) in order to add the relevant CORS response headers (like Access-Control-Allow-Origin). CorsConfiguration allows you to specify how the CORS requests should be processed: allowed origins, headers, methods, etc. It can be provided in various ways:</p></blockquote> <p>AbstractHandlerMapping#setCorsConfiguration() allows to specify a Map with several CorsConfiguration mapped on path patterns like /api/**
+Subclasses can provide their own CorsConfiguration by overriding AbstractHandlerMapping#getCorsConfiguration(Object, HttpServletRequest) method
+Handlers can implement CorsConfigurationSource interface (like ResourceHttpRequestHandler now does) in order to provide a CorsConfiguration for each request.
+Filter based CORS support
+As an alternative to other methods presented above, Spring Framework also provides a CorsFilter. In that case, instead of using @CrossOrigin or WebMvcConfigurer#addCorsMappings(CorsRegistry), you can for example declare the filter as following in your Spring Boot application:</p> <div class="language- extra-class"><pre class="language-text"><code>@Configuration
+public class MyConfiguration {
+
+	@Bean
+	public FilterRegistrationBean corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin(&quot;http://domain1.com&quot;);
+		config.addAllowedHeader(&quot;*&quot;);
+		config.addAllowedMethod(&quot;*&quot;);
+		source.registerCorsConfiguration(&quot;/**&quot;, config);
+		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+		bean.setOrder(0);
+		return bean;
+	}
+}
+</code></pre></div><p>转载于 <a href="https://spring.io/blog/2015/06/08/cors-support-in-spring-framework" target="_blank" rel="noopener noreferrer">https://spring.io/blog/2015/06/08/cors-support-in-spring-framework<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p></div> <!----> <div class="content page-nav"><p class="inner"><span class="prev">
+          ← <a href="/zhangyongxin/blog/httpStatus.html" class="prev">
+            常见的HTTP状态码
+          </a></span> <span class="next"><a href="/zhangyongxin/blog/validateParameterforYourService.html">
+            在项目中通过切面统一进行参数校验
+          </a> →
+        </span></p></div></div> <div id="comment-container"><div class="gt-container"><div class="gt-initing"><i class="gt-loader"></i> <p class="gt-initing-text">Gitalking ...</p></div> <!----> <!----> <div><div class="gt-header"><a class="gt-avatar-github"><span class="gt-ico gt-ico-github"><span class="gt-svg"><svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64 524C64 719.602 189.356 885.926 364.113 947.017 387.65799 953 384 936.115 384 924.767L384 847.107C248.118 863.007 242.674 773.052 233.5 758.001 215 726.501 171.5 718.501 184.5 703.501 215.5 687.501 247 707.501 283.5 761.501 309.956 800.642 361.366 794.075 387.658 787.497 393.403 763.997 405.637 743.042 422.353 726.638 281.774 701.609 223 615.67 223 513.5 223 464.053 239.322 418.406 271.465 381.627 251.142 320.928 273.421 269.19 276.337 261.415 334.458 256.131 394.888 302.993 399.549 306.685 432.663 297.835 470.341 293 512.5 293 554.924 293 592.81 297.896 626.075 306.853 637.426 298.219 693.46 258.054 747.5 262.966 750.382 270.652 772.185 321.292 753.058 381.083 785.516 417.956 802 463.809 802 513.5 802 615.874 742.99 701.953 601.803 726.786 625.381 750.003 640 782.295 640 818.008L640 930.653C640.752 939.626 640 948.664978 655.086 948.665 832.344 888.962 960 721.389 960 524 960 276.576 759.424 76 512 76 264.577 76 64 276.576 64 524Z"></path>
+</svg>
+</span> <!----></span></a> <div class="gt-header-comment"><textarea placeholder="Leave a comment" class="gt-header-textarea"></textarea> <div class="gt-header-preview markdown-body hide"></div> <div class="gt-header-controls"><a href="https://guides.github.com/features/mastering-markdown/" target="_blank" class="gt-header-controls-tip"><span class="gt-ico gt-ico-tip"><span class="gt-svg"><svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 366.949535c-16.065554 0-29.982212 13.405016-29.982212 29.879884l0 359.070251c0 16.167882 13.405016 29.879884 29.982212 29.879884 15.963226 0 29.879884-13.405016 29.879884-29.879884L541.879884 396.829419C541.879884 380.763865 528.474868 366.949535 512 366.949535L512 366.949535z"
+    p-id="3083"></path>
+  <path d="M482.017788 287.645048c0-7.776956 3.274508-15.553912 8.80024-21.181973 5.525732-5.525732 13.302688-8.80024 21.181973-8.80024 7.776956 0 15.553912 3.274508 21.079644 8.80024 5.525732 5.62806 8.80024 13.405016 8.80024 21.181973 0 7.776956-3.274508 15.656241-8.80024 21.181973-5.525732 5.525732-13.405016 8.697911-21.079644 8.697911-7.879285 0-15.656241-3.274508-21.181973-8.697911C485.292295 303.301289 482.017788 295.524333 482.017788 287.645048L482.017788 287.645048z"
+    p-id="3084"></path>
+  <path d="M512 946.844409c-239.8577 0-434.895573-195.037873-434.895573-434.895573 0-239.8577 195.037873-434.895573 434.895573-434.895573 239.755371 0 434.895573 195.037873 434.895573 434.895573C946.895573 751.806535 751.755371 946.844409 512 946.844409zM512 126.17088c-212.740682 0-385.880284 173.037274-385.880284 385.777955 0 212.740682 173.037274 385.777955 385.880284 385.777955 212.740682 0 385.777955-173.037274 385.777955-385.777955C897.777955 299.208154 724.740682 126.17088 512 126.17088z"
+    p-id="3085"></path>
+</svg>
+</span> <span class="gt-ico-text">Markdown is supported</span></span></a> <!----> <button class="gt-btn gt-btn-preview"><span class="gt-btn-text">Preview</span> <!----></button> <button class="gt-btn gt-btn-login"><span class="gt-btn-text">Login with GitHub</span> <!----></button></div></div></div> <div class="gt-comments"><span></span> <p class="gt-comments-null">
+                Be the first guy leaving a comment!
+            </p> <!----></div></div></div></div></div> <!----></div> <div class="tool-group"><!----></div></div> <!----></div> <div class="background-mask" style="background:url(&quot;https://s1.ax1x.com/2018/12/26/F2wEkD.jpg&quot;) no-repeat fixed;"></div></div></div>
+    <script src="/zhangyongxin/assets/js/34.c16c5295.js" defer></script><script src="/zhangyongxin/assets/js/app.74657ed2.js" defer></script>
+  </body>
+</html>
